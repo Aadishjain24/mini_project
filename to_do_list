@@ -1,0 +1,106 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+// Define a struct to represent a task
+struct Task {
+    string description;
+    bool completed;
+};
+
+int main() {
+    vector<Task> todoList;
+
+    while (true) {
+        cout << "To-Do List:" << endl;
+        cout << "1. Add a Task" << endl;
+        cout << "2. Add Task Status" << endl;
+        cout << "3. Mark a Task as Complete" << endl;
+        cout << "4. Delete a Task" << endl;
+        cout << "5. List Tasks" << endl;
+        cout << "6. Exit" << endl;
+
+        int choice;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                {
+                    Task newTask;
+                    cout << "Enter task description: ";
+                    cin.ignore(); // Clear the input buffer
+                    getline(cin, newTask.description);
+                    newTask.completed = false;
+                    todoList.push_back(newTask);
+                    cout << "Task added successfully." << endl;
+                }
+                break;
+
+            case 2:
+                {
+                    int taskNumber;
+                    cout << "Enter the task number: ";
+                    cin >> taskNumber;
+                    if (taskNumber >= 1 && taskNumber <= todoList.size()) {
+                        cout << "Is the task completed? (1 for yes, 0 for no): ";
+                        int status;
+                        cin >> status;
+                        todoList[taskNumber - 1].completed = (status == 1);
+                        cout << "Task status updated." << endl;
+                    } else {
+                        cout << "Invalid task number." << endl;
+                    }
+                }
+                break;
+
+            case 3:
+                {
+                    int taskNumber;
+                    cout << "Enter the task number: ";
+                    cin >> taskNumber;
+                    if (taskNumber >= 1 && taskNumber <= todoList.size()) {
+                        todoList[taskNumber - 1].completed = true;
+                        cout << "Task marked as complete." << endl;
+                    } else {
+                        cout << "Invalid task number." << endl;
+                    }
+                }
+                break;
+
+            case 4:
+                {
+                    int taskNumber;
+                    cout << "Enter the task number to delete: ";
+                    cin >> taskNumber;
+                    if (taskNumber >= 1 && taskNumber <= todoList.size()) {
+                        todoList.erase(todoList.begin() + (taskNumber - 1));
+                        cout << "Task deleted." << endl;
+                    } else {
+                        cout << "Invalid task number." << endl;
+                    }
+                }
+                break;
+
+            case 5:
+                {
+                    cout << "Task List:" << endl;
+                    for (size_t i = 0; i < todoList.size(); i++) {
+                        cout << i + 1 << ". " << (todoList[i].completed ? "[X] " : "[ ] ") << todoList[i].description << endl;
+                    }
+                }
+                break;
+
+            case 6:
+                cout << "Exiting the program." << endl;
+                return 0;
+
+            default:
+                cout << "Invalid choice. Please enter a valid option." << endl;
+        }
+    }
+
+    return 0;
+}
